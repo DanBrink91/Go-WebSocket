@@ -17,7 +17,7 @@ func main(){
     go h.run()
     http.HandleFunc("/", homeHandler)
     http.Handle("/ws", websocket.Handler(wsHandler))
-    if err := (http.ListenAndServe(":8008", nil); err != nil {
+    if err := http.ListenAndServe(*addr, nil); err != nil {
             log.Fatal("ListenAndServe:", err)
     }
 }
