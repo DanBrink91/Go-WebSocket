@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>WebSocket Test</title>
+    </head>
+    <body>
+        <label for="chatTXT">Chat:</label>
+        <input type="text" id="chatTXT" size="64" />
+        <input type="button" value="send" id="chatBTN"/>
+        <div id="chat"></div>
+        <script>
+            var chat = document.getElementById("chat");
+            var btn = document.getElementById("chatBTN");
+            var txt = document.getElementById("chatTXT");
+            var conn;
+            btn.onclick = function()
+            {
+                conn.send(txt.value);
+                txt.value = "";
+            }
+            if(window["WebSocket"])
+            {
+                conn = new WebSocket("ws://{{$}}/ws");
+                conn.onclose = function(evt)
+                {
+                    console.log(evt);
+                    chat.innerHTML += "Connection Closed. <br />";
+                }
+                conn.onmessage = function(evt)
+                {
+                    chat.innerHTML += evt.data + '<br />';
+                }
+            }
+            else
+            {
+                chat.innerHTML += "No WebSockets";
+                console.log("No websockets.");
+            }
+        </script>
+    </body>
+</html>
